@@ -48,188 +48,188 @@ begin
 		);
 	end generate f1; 
   
-  sh(0)  <= Input(0)(30 downto 0) & '0';
-  sh(1)  <= Input(0);
-  sh(2)  <= Input(1)(27 downto 0) & '0000';
-  sh(3)  <= Input(1)(28 downto 0) & '000';
-  sh(4)  <= Input(1);
-  sh(5)  <= Input(2)(25 downto 0) & '000000';
-  sh(6)  <= Input(2)(26 downto 0) & '00000';
-  sh(7)  <= Input(3)(23 downto 0) & '00000000';
-  sh(8)  <= Input(3)(24 downto 0) & '0000000';
-  sh(9)  <= Input(4)(20 downto 0) & '00000000000';
-  sh(10) <= Input(4)(21 downto 0) & '0000000000';
+  sh(0) <= Input(0)(30 downto 0) & "0";
+  sh(1) <= Input(0);
+  sh(2) <= Input(1)(27 downto 0) & "0000";
+  sh(3) <= Input(1)(28 downto 0) & "000";
+  sh(4) <= Input(1);
+  sh(5) <= Input(2)(25 downto 0) & "000000";
+  sh(6) <= Input(2)(26 downto 0) & "00000";
+  sh(7) <= Input(3)(23 downto 0) & "00000000";
+  sh(8) <= Input(3)(24 downto 0) & "0000000";
+  sh(9) <= Input(4)(20 downto 0) & "00000000000";
+  sh(10) <= Input(4)(21 downto 0) & "0000000000";
   sh(11) <= Input(4);
-  sh(12) <= Input(5)(20 downto 0) & '00000000000';
-  sh(13) <= Input(5)(21 downto 0) & '0000000000';
+  sh(12) <= Input(5)(20 downto 0) & "00000000000";
+  sh(13) <= Input(5)(21 downto 0) & "0000000000";
   sh(14) <= Input(5);
-  sh(15) <= Input(6)(23 downto 0) & '00000000';
-  sh(16) <= Input(6)(24 downto 0) & '0000000';
-  sh(17) <= Input(7)(25 downto 0) & '000000';
-  sh(18) <= Input(7)(26 downto 0) & '00000';
-  sh(19) <= Input(8)(27 downto 0) & '0000';
-  sh(20) <= Input(8)(28 downto 0) & '000';
+  sh(15) <= Input(6)(23 downto 0) & "00000000";
+  sh(16) <= Input(6)(24 downto 0) & "0000000";
+  sh(17) <= Input(7)(25 downto 0) & "000000";
+  sh(18) <= Input(7)(26 downto 0) & "00000";
+  sh(19) <= Input(8)(27 downto 0) & "0000";
+  sh(20) <= Input(8)(28 downto 0) & "000";
   sh(21) <= Input(8);
-  sh(22) <= Input(9)(30 downto 0) & '0';
+  sh(22) <= Input(9)(30 downto 0) & "0";
   sh(23) <= Input(9);
-  sh(24) <= y(9)(29 downto 0) & '00';
+  sh(24) <= y(9)(29 downto 0) & "00";
   sh(25) <= y(9);
-  sh(26) <= y(8)(26 downto 0) & '00000';
-  sh(27) <= y(8)(27 downto 0) & '0000';
-  sh(28) <= y(7)(25 downto 0) & '000000';
-  sh(29) <= y(7)(28 downto 0) & '000';
-  sh(30) <= y(7)(29 downto 0) & '00';
-  sh(31) <= y(6)(23 downto 0) & '00000000';
-  sh(32) <= y(6)(25 downto 0) & '000000';
+  sh(26) <= y(8)(26 downto 0) & "00000";
+  sh(27) <= y(8)(27 downto 0) & "0000";
+  sh(28) <= y(7)(25 downto 0) & "000000";
+  sh(29) <= y(7)(28 downto 0) & "000";
+  sh(30) <= y(7)(29 downto 0) & "00";
+  sh(31) <= y(6)(23 downto 0) & "00000000";
+  sh(32) <= y(6)(25 downto 0) & "000000";
   sh(33) <= y(6);
-  sh(34) <= y(5)(21 downto 0) & '0000000000';
-  sh(35) <= y(5)(22 downto 0) & '000000000';
-  sh(36) <= y(5)(29 downto 0) & '00';
-  sh(37) <= y(4)(23 downto 0) & '00000000';
-  sh(38) <= y(4)(25 downto 0) & '000000';
+  sh(34) <= y(5)(21 downto 0) & "0000000000";
+  sh(35) <= y(5)(22 downto 0) & "000000000";
+  sh(36) <= y(5)(29 downto 0) & "00";
+  sh(37) <= y(4)(23 downto 0) & "00000000";
+  sh(38) <= y(4)(25 downto 0) & "000000";
   sh(39) <= y(4);
-  sh(40) <= y(3)(25 downto 0) & '000000';
-  sh(41) <= y(3)(28 downto 0) & '000';
-  sh(42) <= y(3)(29 downto 0) & '00';
-  sh(43) <= y(2)(26 downto 0) & '00000';
-  sh(44) <= y(2)(27 downto 0) & '0000';
-  sh(45) <= y(1)(29 downto 0) & '00';
-  
+  sh(40) <= y(3)(25 downto 0) & "000000";
+  sh(41) <= y(3)(28 downto 0) & "000";
+  sh(42) <= y(3)(29 downto 0) & "00";
+  sh(43) <= y(2)(26 downto 0) & "00000";
+  sh(44) <= y(2)(27 downto 0) & "0000";
+  sh(45) <= y(1)(29 downto 0) & "00";
+
   S0: adder port map(
-    A => sh(0)
-    B => sh(1)
+    A => sh(0),
+    B => sh(1),
     O => s(0)
   );
 
   S1: adder port map(
-    A => sh(2)
-    B => sh(3)
+    A => sh(2),
+    B => sh(3),
     O => s(1)
   );
 
   S2: adder port map(
-    A => sh(4)
-    B => sh(5)
+    A => sh(4),
+    B => sh(5),
     O => s(2)
   );
 
   S3: adder port map(
-    A => sh(6)
-    B => sh(7)
+    A => sh(6),
+    B => sh(7),
     O => s(3)
   );
 
   S4: adder port map(
-    A => sh(8)
-    B => sh(9)
+    A => sh(8),
+    B => sh(9),
     O => s(4)
   );
 
   S5: adder port map(
-    A => sh(10)
-    B => sh(11)
+    A => sh(10),
+    B => sh(11),
     O => s(5)
   );
 
   S6: adder port map(
-    A => sh(12)
-    B => sh(13)
+    A => sh(12),
+    B => sh(13),
     O => s(6)
   );
 
   S7: adder port map(
-    A => sh(14)
-    B => sh(15)
+    A => sh(14),
+    B => sh(15),
     O => s(7)
   );
 
   S8: adder port map(
-    A => sh(16)
-    B => sh(17)
+    A => sh(16),
+    B => sh(17),
     O => s(8)
   );
 
   S9: adder port map(
-    A => sh(18)
-    B => sh(19)
+    A => sh(18),
+    B => sh(19),
     O => s(9)
   );
 
   S10: adder port map(
-    A => sh(20)
-    B => sh(21)
+    A => sh(20),
+    B => sh(21),
     O => s(10)
   );
 
   S11: adder port map(
-    A => sh(22)
-    B => sh(23)
+    A => sh(22),
+    B => sh(23),
     O => s(11)
   );
 
   S12: adder port map(
-    A => sh(24)
-    B => sh(25)
+    A => sh(24),
+    B => sh(25),
     O => s(12)
   );
 
   S13: adder port map(
-    A => sh(26)
-    B => sh(27)
+    A => sh(26),
+    B => sh(27),
     O => s(13)
   );
 
   S14: adder port map(
-    A => sh(28)
-    B => sh(29)
+    A => sh(28),
+    B => sh(29),
     O => s(14)
   );
 
   S15: adder port map(
-    A => sh(30)
-    B => sh(31)
+    A => sh(30),
+    B => sh(31),
     O => s(15)
   );
 
   S16: adder port map(
-    A => sh(32)
-    B => sh(33)
+    A => sh(32),
+    B => sh(33),
     O => s(16)
   );
 
   S17: adder port map(
-    A => sh(34)
-    B => sh(35)
+    A => sh(34),
+    B => sh(35),
     O => s(17)
   );
 
   S18: adder port map(
-    A => sh(36)
-    B => sh(37)
+    A => sh(36),
+    B => sh(37),
     O => s(18)
   );
 
   S19: adder port map(
-    A => sh(38)
-    B => sh(39)
+    A => sh(38),
+    B => sh(39),
     O => s(19)
   );
 
   S20: adder port map(
-    A => sh(40)
-    B => sh(41)
+    A => sh(40),
+    B => sh(41),
     O => s(20)
   );
 
   S21: adder port map(
-    A => sh(42)
-    B => sh(43)
+    A => sh(42),
+    B => sh(43),
     O => s(21)
   );
 
   S22: adder port map(
-    A => sh(44)
-    B => sh(45)
+    A => sh(44),
+    B => sh(45),
     O => s(22)
   );
   

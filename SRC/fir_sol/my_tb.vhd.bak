@@ -100,4 +100,4 @@ BEGIN
 		end if;
 	end process;
   
-END tb;
+END my_tb;

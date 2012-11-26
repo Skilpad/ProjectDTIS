@@ -16,6 +16,9 @@ entity iir_sol is
 end iir_sol;
 
 -- Pipe-Lined version
+-- This is totally stupidly done! The results of the last outputs (y[n-1], y[n-2]...) are not ready 
+-- at the beginning (when all the I/O are used in the first stage of adders).
+-- Thus, adding those outputs must be done later.
 
 architecture Structural of iir_sol is
 	

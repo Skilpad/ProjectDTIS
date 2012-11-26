@@ -29,16 +29,19 @@ ARCHITECTURE tb OF my_tb IS
 	signal Clk   : std_logic := '0';
 --	signal I     : std_logic_vector(31 downto 0) := (others=>'0');
   signal Ia     : array_int_t(0 to 9);
-  signal Input : std_logic_vector(31 downto 0);
+  signal Input  : std_logic_vector(31 downto 0);
   
 	--Outputs
 --	signal O     : std_logic_vector(31 downto 0);
   signal Output : std_logic_vector(31 downto 0);
-	signal Oa      : array_int_t(0 to 9);
+	signal Oa      : array_int_t(1 to 9);
   
-	constant sin : array_int_t(0 to 19) := (
-		   0,   50,  195,  422,  707, 1024, 1340, 1626, 1852, 1998,  
-    2048, 1998, 1852, 1625, 1340, 1024,  708,  422,  196,   50 );
+-- 	constant sin : array_int_t(0 to 19) := (
+-- 		   0,   50,  195,  422,  707, 1024, 1340, 1626, 1852, 1998,  
+--     2048, 1998, 1852, 1625, 1340, 1024,  708,  422,  196,   50 );
+   constant sin : array_int_t(0 to 19) := (
+         0, 1, 0, 0, 0, 0, 0, 0, 0, 0,  
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 	
   constant a : array_int_t(0 to 9) := (
     3, 25, 96, 384, 3073, 3073, 384, 96, 25, 3 );
@@ -64,12 +67,13 @@ BEGIN
   
 	tb : process(Clk)
 		variable it : integer := 0;
-    variable oth: integer := 0;
+      variable oth: integer := 0;
 	begin
 		if Clk'event and Clk = '1' then
       
       if Reset = '1' then
         it := 0;
+        Ia(0) <= 0;
         init: for k in 1 to 9 loop
           Ia(k) <= 0;
           Oa(k) <= 0;
@@ -82,7 +86,8 @@ BEGIN
           it := 0;
         end if;
         
-        rec: for k in 1 to 9 loop
+        Ia(1) <= Ia(0);
+        rec: for k in 2 to 9 loop
           Ia(k) <= Ia(k-1);
           Oa(k) <= Oa(k-1);
         end loop rec;
@@ -91,13 +96,20 @@ BEGIN
         calc: for i in 1 to 9 loop
           oth := oth + a(i) * Ia(i) + b(i) * Oa(i);
         end loop calc;
-        Oa(0) <= oth;
+        Oa(1) <= oth;
         
-        assert to_integer(unsigned(Output)) = Oa(lat);
-      
+        assert to_integer(signed(Output)) = Oa(lat);
+        -- signed(Output) is used instead of unsigned(Output) to avoid simulation fail:
+        -- In fact, integer in the simulator are implemented on 32 bits.
+        -- Thus, even if Output and the predicted value are the same,
+        -- the modulus 2^32 for integer (but not for unsigned interpreting) will
+        -- result in an error when Output > 2^31
+        
       end if;
       
 		end if;
 	end process;
+   
+
   
-END my_tb;
+END tb;

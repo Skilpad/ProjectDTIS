@@ -51,26 +51,26 @@ begin
   end generate f1;             
 
   S92: adder port map(
-    A => sh(91),
-    B => sh(90),
+    A => s(91),
+    B => s(90),
     O => s(92)
   );
 
   S91: adder port map(
-    A => sh(89),
-    B => sh(88),
+    A => s(89),
+    B => s(88),
     O => s(91)
   );
 
   S89: adder port map(
-    A => sh(85),
-    B => sh(84),
+    A => s(85),
+    B => s(84),
     O => s(89)
   );
 
   S85: adder port map(
-    A => sh(42),
-    B => sh(43),
+    A => s(42),
+    B => s(43),
     O => s(85)
   );
 
@@ -79,8 +79,8 @@ begin
   s(43 <= y(1)(30 downto 0) & "00";
 
   S84: adder port map(
-    A => sh(40),
-    B => sh(41),
+    A => s(40),
+    B => s(41),
     O => s(84)
   );
 
@@ -89,38 +89,38 @@ begin
   s(41 <= y(2)(29 downto 0) & "000";
 
   S88: adder port map(
-    A => sh(87),
-    B => sh(86),
+    A => s(87),
+    B => s(86),
     O => s(88)
   );
 
   S87: adder port map(
-    A => sh(82),
-    B => sh(81),
+    A => s(82),
+    B => s(81),
     O => s(87)
   );
 
   S82: adder port map(
-    A => sh(78),
-    B => sh(77),
+    A => s(78),
+    B => s(77),
     O => s(82)
   );
 
   S78: adder port map(
-    A => sh(71),
-    B => sh(70),
+    A => s(71),
+    B => s(70),
     O => s(78)
   );
 
   S71: adder port map(
-    A => sh(55),
-    B => sh(54),
+    A => s(55),
+    B => s(54),
     O => s(71)
   );
 
   S55: adder port map(
-    A => sh(14),
-    B => sh(26),
+    A => s(14),
+    B => s(26),
     O => s(55)
   );
 
@@ -129,8 +129,8 @@ begin
   s(26 <= y(5)(24 downto 0) & "00000000";
 
   S54: adder port map(
-    A => sh(12),
-    B => sh(13),
+    A => s(12),
+    B => s(13),
     O => s(54)
   );
 
@@ -139,14 +139,14 @@ begin
   s(13 <= x(4)(28 downto 0) & "0000";
 
   S70: adder port map(
-    A => sh(57),
-    B => sh(56),
+    A => s(57),
+    B => s(56),
     O => s(70)
   );
 
   S57: adder port map(
-    A => sh(16),
-    B => sh(28),
+    A => s(16),
+    B => s(28),
     O => s(57)
   );
 
@@ -155,8 +155,8 @@ begin
   s(28 <= y(4)(25 downto 0) & "0000000";
 
   S56: adder port map(
-    A => sh(27),
-    B => sh(15),
+    A => s(27),
+    B => s(15),
     O => s(56)
   );
 
@@ -165,20 +165,20 @@ begin
   s(15 <= x(3)(29 downto 0) & "000";
 
   S77: adder port map(
-    A => sh(73),
-    B => sh(72),
+    A => s(73),
+    B => s(72),
     O => s(77)
   );
 
   S73: adder port map(
-    A => sh(51),
-    B => sh(50),
+    A => s(51),
+    B => s(50),
     O => s(73)
   );
 
   S51: adder port map(
-    A => sh(8),
-    B => sh(9),
+    A => s(8),
+    B => s(9),
     O => s(51)
   );
 
@@ -187,8 +187,8 @@ begin
   s(9 <= x(5)(27 downto 0) & "00000";
 
   S50: adder port map(
-    A => sh(6),
-    B => sh(7),
+    A => s(6),
+    B => s(7),
     O => s(50)
   );
 
@@ -197,14 +197,14 @@ begin
   s(7 <= x(6)(26 downto 0) & "000000";
 
   S72: adder port map(
-    A => sh(53),
-    B => sh(52),
+    A => s(53),
+    B => s(52),
     O => s(72)
   );
 
   S53: adder port map(
-    A => sh(24),
-    B => sh(25),
+    A => s(24),
+    B => s(25),
     O => s(53)
   );
 
@@ -213,8 +213,8 @@ begin
   s(25 <= y(6)(23 downto 0) & "000000000";
 
   S52: adder port map(
-    A => sh(10),
-    B => sh(11),
+    A => s(10),
+    B => s(11),
     O => s(52)
   );
 
@@ -223,26 +223,26 @@ begin
   s(11 <= x(5)(27 downto 0) & "00000";
 
   S81: adder port map(
-    A => sh(80),
-    B => sh(79),
+    A => s(80),
+    B => s(79),
     O => s(81)
   );
 
   S80: adder port map(
-    A => sh(67),
-    B => sh(66),
+    A => s(67),
+    B => s(66),
     O => s(80)
   );
 
   S67: adder port map(
-    A => sh(63),
-    B => sh(62),
+    A => s(63),
+    B => s(62),
     O => s(67)
   );
 
   S63: adder port map(
-    A => sh(34),
-    B => sh(35),
+    A => s(34),
+    B => s(35),
     O => s(63)
   );
 
@@ -251,8 +251,8 @@ begin
   s(35 <= y(2)(27 downto 0) & "00000";
 
   S62: adder port map(
-    A => sh(20),
-    B => sh(21),
+    A => s(20),
+    B => s(21),
     O => s(62)
   );
 
@@ -261,14 +261,14 @@ begin
   s(21 <= x(1)(31 downto 0) & "0";
 
   S66: adder port map(
-    A => sh(65),
-    B => sh(64),
+    A => s(65),
+    B => s(64),
     O => s(66)
   );
 
   S65: adder port map(
-    A => sh(23),
-    B => sh(37),
+    A => s(23),
+    B => s(37),
     O => s(65)
   );
 
@@ -277,8 +277,8 @@ begin
   s(37 <= y(1)(28 downto 0) & "0000";
 
   S64: adder port map(
-    A => sh(36),
-    B => sh(22),
+    A => s(36),
+    B => s(22),
     O => s(64)
   );
 
@@ -287,20 +287,20 @@ begin
   s(22 <= x(0)(32 downto 0);
 
   S79: adder port map(
-    A => sh(69),
-    B => sh(68),
+    A => s(69),
+    B => s(68),
     O => s(79)
   );
 
   S69: adder port map(
-    A => sh(59),
-    B => sh(58),
+    A => s(59),
+    B => s(58),
     O => s(69)
   );
 
   S59: adder port map(
-    A => sh(17),
-    B => sh(18),
+    A => s(17),
+    B => s(18),
     O => s(59)
   );
 
@@ -309,8 +309,8 @@ begin
   s(18 <= x(2)(30 downto 0) & "00";
 
   S58: adder port map(
-    A => sh(29),
-    B => sh(30),
+    A => s(29),
+    B => s(30),
     O => s(58)
   );
 
@@ -319,14 +319,14 @@ begin
   s(30 <= y(4)(25 downto 0) & "0000000";
 
   S68: adder port map(
-    A => sh(61),
-    B => sh(60),
+    A => s(61),
+    B => s(60),
     O => s(68)
   );
 
   S61: adder port map(
-    A => sh(33),
-    B => sh(19),
+    A => s(33),
+    B => s(19),
     O => s(61)
   );
 
@@ -335,8 +335,8 @@ begin
   s(19 <= x(1)(31 downto 0) & "0";
 
   S60: adder port map(
-    A => sh(31),
-    B => sh(32),
+    A => s(31),
+    B => s(32),
     O => s(60)
   );
 
@@ -345,28 +345,28 @@ begin
   s(32 <= y(3)(26 downto 0) & "000000";
 
   S86: adder port map(
-    A => sh(44),
-    B => sh(83),
+    A => s(44),
+    B => s(83),
     O => s(86)
   );
 
   s(44 <= y(1)(30 downto 0) & "00";
 
   S83: adder port map(
-    A => sh(76),
-    B => sh(75),
+    A => s(76),
+    B => s(75),
     O => s(83)
   );
 
   S76: adder port map(
-    A => sh(47),
-    B => sh(74),
+    A => s(47),
+    B => s(74),
     O => s(76)
   );
 
   S47: adder port map(
-    A => sh(0),
-    B => sh(1),
+    A => s(0),
+    B => s(1),
     O => s(47)
   );
 
@@ -375,14 +375,14 @@ begin
   s(1 <= x(9)(23 downto 0) & "000000000";
 
   S74: adder port map(
-    A => sh(49),
-    B => sh(48),
+    A => s(49),
+    B => s(48),
     O => s(74)
   );
 
   S49: adder port map(
-    A => sh(4),
-    B => sh(5),
+    A => s(4),
+    B => s(5),
     O => s(49)
   );
 
@@ -391,8 +391,8 @@ begin
   s(5 <= x(7)(25 downto 0) & "0000000";
 
   S48: adder port map(
-    A => sh(2),
-    B => sh(3),
+    A => s(2),
+    B => s(3),
     O => s(48)
   );
 
@@ -401,8 +401,8 @@ begin
   s(3 <= x(8)(24 downto 0) & "00000000";
 
   S75: adder port map(
-    A => sh(38),
-    B => sh(39),
+    A => s(38),
+    B => s(39),
     O => s(75)
   );
 
@@ -411,8 +411,8 @@ begin
   s(39 <= y(2)(28 downto 0) & "0000";
 
   S90: adder port map(
-    A => sh(45),
-    B => sh(46),
+    A => s(45),
+    B => s(46),
     O => s(90)
   );
 

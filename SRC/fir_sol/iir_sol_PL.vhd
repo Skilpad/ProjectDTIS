@@ -16,383 +16,408 @@ entity iir_sol is
 end iir_sol;
 
 -- Pipe-Lined version
--- This is totally stupidly done! The results of the last outputs (y[n-1], y[n-2]...) are not ready 
--- at the beginning (when all the I/O are used in the first stage of adders).
--- Thus, adding those outputs must be done later.
 
 architecture Structural of iir_sol is
-	
-  component reg 
-    port ( Reset  : in  STD_LOGIC;
-           Clk    : in  STD_LOGIC;
-           Load   : in  STD_LOGIC;
-           Din    : in  STD_LOGIC_VECTOR (31 downto 0);
+
+  component reg
+    port ( Reset  : in  STD_LOGIC;               
+           Clk    : in  STD_LOGIC;                      
+           Load   : in  STD_LOGIC;                      
+           Din    : in  STD_LOGIC_VECTOR (31 downto 0); 
            Dout   : out STD_LOGIC_VECTOR (31 downto 0));
-	end component;
-  
-  component adder
-    port ( A : in  STD_LOGIC_VECTOR (31 downto 0);
-           B : in  STD_LOGIC_VECTOR (31 downto 0);
-           O : out  STD_LOGIC_VECTOR (31 downto 0));
   end component;
-  
-  signal y  : array32_t (0 to 9);    -- y(0) = y[n-0]
-  signal sr : array32_t (0 to 44);   -- outputs of the adders before registers
-  signal s  : array32_t (0 to 44);   -- outputs of the adders after registers
-  signal sh : array32_t (0 to 45);   -- shifted signals
-  
+
+  component adder                                   
+    port ( A : in  STD_LOGIC_VECTOR (31 downto 0);  
+           B : in  STD_LOGIC_VECTOR (31 downto 0);  
+           O : out  STD_LOGIC_VECTOR (31 downto 0));
+  end component;                                    
+
+  signal y : array32_t (0 to 9);
+  signal s : array32_t (0 to 92);
+
 begin
-  
-  -- Define registers for old outputs
-  
-	Output <= y(0);
-	f1: for i in 0 to 8 generate
-		R: reg port map (
-			Reset => Reset,
-			Clk => Clk,
-			Load => '1',
-			Din => y(i),
-			Dout => y(i+1)
-		);
-	end generate f1; 
-  
-  -- Define registers for adders outputs for pipe-lining
-  
-	f2: for i in 0 to 44 generate
-		RA: reg port map (
-			Reset => Reset,
-			Clk => Clk,
-			Load => '1',
-			Din => sr(i),
-			Dout => s(i)
-		);
-	end generate f2; 
-  
-  -- Define shifted signals
-  
-  sh(0) <= Input(0)(30 downto 0) & "0";
-  sh(1) <= Input(0);
-  sh(2) <= Input(1)(27 downto 0) & "0000";
-  sh(3) <= Input(1)(28 downto 0) & "000";
-  sh(4) <= Input(1);
-  sh(5) <= Input(2)(25 downto 0) & "000000";
-  sh(6) <= Input(2)(26 downto 0) & "00000";
-  sh(7) <= Input(3)(23 downto 0) & "00000000";
-  sh(8) <= Input(3)(24 downto 0) & "0000000";
-  sh(9) <= Input(4)(20 downto 0) & "00000000000";
-  sh(10) <= Input(4)(21 downto 0) & "0000000000";
-  sh(11) <= Input(4);
-  sh(12) <= Input(5)(20 downto 0) & "00000000000";
-  sh(13) <= Input(5)(21 downto 0) & "0000000000";
-  sh(14) <= Input(5);
-  sh(15) <= Input(6)(23 downto 0) & "00000000";
-  sh(16) <= Input(6)(24 downto 0) & "0000000";
-  sh(17) <= Input(7)(25 downto 0) & "000000";
-  sh(18) <= Input(7)(26 downto 0) & "00000";
-  sh(19) <= Input(8)(27 downto 0) & "0000";
-  sh(20) <= Input(8)(28 downto 0) & "000";
-  sh(21) <= Input(8);
-  sh(22) <= Input(9)(30 downto 0) & "0";
-  sh(23) <= Input(9);
-  sh(24) <= y(9)(29 downto 0) & "00";
-  sh(25) <= y(9);
-  sh(26) <= y(8)(26 downto 0) & "00000";
-  sh(27) <= y(8)(27 downto 0) & "0000";
-  sh(28) <= y(7)(25 downto 0) & "000000";
-  sh(29) <= y(7)(28 downto 0) & "000";
-  sh(30) <= y(7)(29 downto 0) & "00";
-  sh(31) <= y(6)(23 downto 0) & "00000000";
-  sh(32) <= y(6)(25 downto 0) & "000000";
-  sh(33) <= y(6);
-  sh(34) <= y(5)(21 downto 0) & "0000000000";
-  sh(35) <= y(5)(22 downto 0) & "000000000";
-  sh(36) <= y(5)(29 downto 0) & "00";
-  sh(37) <= y(4)(23 downto 0) & "00000000";
-  sh(38) <= y(4)(25 downto 0) & "000000";
-  sh(39) <= y(4);
-  sh(40) <= y(3)(25 downto 0) & "000000";
-  sh(41) <= y(3)(28 downto 0) & "000";
-  sh(42) <= y(3)(29 downto 0) & "00";
-  sh(43) <= y(2)(26 downto 0) & "00000";
-  sh(44) <= y(2)(27 downto 0) & "0000";
-  sh(45) <= y(1)(29 downto 0) & "00";
-  
-  -- Define every adders
-  
-  S0: adder port map(
-    A => sh(0),
-    B => sh(1),
-    O => sr(0)
+
+  y(0) <= s(92);
+  Output <= y(0);              
+  f1: for i in 0 to 8 generate 
+    R: reg port map (          
+      Reset => Reset,          
+      Clk => Clk,              
+      Load => '1',             
+      Din => y(i),             
+      Dout => y(i+1)           
+    );                         
+  end generate f1;             
+
+  S92: adder port map(
+    A => sh(91),
+    B => sh(90),
+    O => s(92)
   );
 
-  S1: adder port map(
-    A => sh(2),
-    B => sh(3),
-    O => sr(1)
+  S91: adder port map(
+    A => sh(89),
+    B => sh(88),
+    O => s(91)
   );
 
-  S2: adder port map(
-    A => sh(4),
-    B => sh(5),
-    O => sr(2)
+  S89: adder port map(
+    A => sh(85),
+    B => sh(84),
+    O => s(89)
   );
 
-  S3: adder port map(
-    A => sh(6),
-    B => sh(7),
-    O => sr(3)
-  );
-
-  S4: adder port map(
-    A => sh(8),
-    B => sh(9),
-    O => sr(4)
-  );
-
-  S5: adder port map(
-    A => sh(10),
-    B => sh(11),
-    O => sr(5)
-  );
-
-  S6: adder port map(
-    A => sh(12),
-    B => sh(13),
-    O => sr(6)
-  );
-
-  S7: adder port map(
-    A => sh(14),
-    B => sh(15),
-    O => sr(7)
-  );
-
-  S8: adder port map(
-    A => sh(16),
-    B => sh(17),
-    O => sr(8)
-  );
-
-  S9: adder port map(
-    A => sh(18),
-    B => sh(19),
-    O => sr(9)
-  );
-
-  S10: adder port map(
-    A => sh(20),
-    B => sh(21),
-    O => sr(10)
-  );
-
-  S11: adder port map(
-    A => sh(22),
-    B => sh(23),
-    O => sr(11)
-  );
-
-  S12: adder port map(
-    A => sh(24),
-    B => sh(25),
-    O => sr(12)
-  );
-
-  S13: adder port map(
-    A => sh(26),
-    B => sh(27),
-    O => sr(13)
-  );
-
-  S14: adder port map(
-    A => sh(28),
-    B => sh(29),
-    O => sr(14)
-  );
-
-  S15: adder port map(
-    A => sh(30),
-    B => sh(31),
-    O => sr(15)
-  );
-
-  S16: adder port map(
-    A => sh(32),
-    B => sh(33),
-    O => sr(16)
-  );
-
-  S17: adder port map(
-    A => sh(34),
-    B => sh(35),
-    O => sr(17)
-  );
-
-  S18: adder port map(
-    A => sh(36),
-    B => sh(37),
-    O => sr(18)
-  );
-
-  S19: adder port map(
-    A => sh(38),
-    B => sh(39),
-    O => sr(19)
-  );
-
-  S20: adder port map(
-    A => sh(40),
-    B => sh(41),
-    O => sr(20)
-  );
-
-  S21: adder port map(
+  S85: adder port map(
     A => sh(42),
     B => sh(43),
-    O => sr(21)
+    O => s(85)
   );
 
-  S22: adder port map(
+  s(42 <= y(2)(29 downto 0) & "000";
+
+  s(43 <= y(1)(30 downto 0) & "00";
+
+  S84: adder port map(
+    A => sh(40),
+    B => sh(41),
+    O => s(84)
+  );
+
+  s(40 <= y(2)(29 downto 0) & "000";
+
+  s(41 <= y(2)(29 downto 0) & "000";
+
+  S88: adder port map(
+    A => sh(87),
+    B => sh(86),
+    O => s(88)
+  );
+
+  S87: adder port map(
+    A => sh(82),
+    B => sh(81),
+    O => s(87)
+  );
+
+  S82: adder port map(
+    A => sh(78),
+    B => sh(77),
+    O => s(82)
+  );
+
+  S78: adder port map(
+    A => sh(71),
+    B => sh(70),
+    O => s(78)
+  );
+
+  S71: adder port map(
+    A => sh(55),
+    B => sh(54),
+    O => s(71)
+  );
+
+  S55: adder port map(
+    A => sh(14),
+    B => sh(26),
+    O => s(55)
+  );
+
+  s(14 <= x(4)(28 downto 0) & "0000";
+
+  s(26 <= y(5)(24 downto 0) & "00000000";
+
+  S54: adder port map(
+    A => sh(12),
+    B => sh(13),
+    O => s(54)
+  );
+
+  s(12 <= x(4)(28 downto 0) & "0000";
+
+  s(13 <= x(4)(28 downto 0) & "0000";
+
+  S70: adder port map(
+    A => sh(57),
+    B => sh(56),
+    O => s(70)
+  );
+
+  S57: adder port map(
+    A => sh(16),
+    B => sh(28),
+    O => s(57)
+  );
+
+  s(16 <= x(3)(29 downto 0) & "000";
+
+  s(28 <= y(4)(25 downto 0) & "0000000";
+
+  S56: adder port map(
+    A => sh(27),
+    B => sh(15),
+    O => s(56)
+  );
+
+  s(27 <= y(5)(24 downto 0) & "00000000";
+
+  s(15 <= x(3)(29 downto 0) & "000";
+
+  S77: adder port map(
+    A => sh(73),
+    B => sh(72),
+    O => s(77)
+  );
+
+  S73: adder port map(
+    A => sh(51),
+    B => sh(50),
+    O => s(73)
+  );
+
+  S51: adder port map(
+    A => sh(8),
+    B => sh(9),
+    O => s(51)
+  );
+
+  s(8 <= x(6)(26 downto 0) & "000000";
+
+  s(9 <= x(5)(27 downto 0) & "00000";
+
+  S50: adder port map(
+    A => sh(6),
+    B => sh(7),
+    O => s(50)
+  );
+
+  s(6 <= x(7)(25 downto 0) & "0000000";
+
+  s(7 <= x(6)(26 downto 0) & "000000";
+
+  S72: adder port map(
+    A => sh(53),
+    B => sh(52),
+    O => s(72)
+  );
+
+  S53: adder port map(
+    A => sh(24),
+    B => sh(25),
+    O => s(53)
+  );
+
+  s(24 <= y(6)(23 downto 0) & "000000000";
+
+  s(25 <= y(6)(23 downto 0) & "000000000";
+
+  S52: adder port map(
+    A => sh(10),
+    B => sh(11),
+    O => s(52)
+  );
+
+  s(10 <= x(5)(27 downto 0) & "00000";
+
+  s(11 <= x(5)(27 downto 0) & "00000";
+
+  S81: adder port map(
+    A => sh(80),
+    B => sh(79),
+    O => s(81)
+  );
+
+  S80: adder port map(
+    A => sh(67),
+    B => sh(66),
+    O => s(80)
+  );
+
+  S67: adder port map(
+    A => sh(63),
+    B => sh(62),
+    O => s(67)
+  );
+
+  S63: adder port map(
+    A => sh(34),
+    B => sh(35),
+    O => s(63)
+  );
+
+  s(34 <= y(2)(27 downto 0) & "00000";
+
+  s(35 <= y(2)(27 downto 0) & "00000";
+
+  S62: adder port map(
+    A => sh(20),
+    B => sh(21),
+    O => s(62)
+  );
+
+  s(20 <= x(1)(31 downto 0) & "0";
+
+  s(21 <= x(1)(31 downto 0) & "0";
+
+  S66: adder port map(
+    A => sh(65),
+    B => sh(64),
+    O => s(66)
+  );
+
+  S65: adder port map(
+    A => sh(23),
+    B => sh(37),
+    O => s(65)
+  );
+
+  s(23 <= x(0)(32 downto 0);
+
+  s(37 <= y(1)(28 downto 0) & "0000";
+
+  S64: adder port map(
+    A => sh(36),
+    B => sh(22),
+    O => s(64)
+  );
+
+  s(36 <= y(2)(27 downto 0) & "00000";
+
+  s(22 <= x(0)(32 downto 0);
+
+  S79: adder port map(
+    A => sh(69),
+    B => sh(68),
+    O => s(79)
+  );
+
+  S69: adder port map(
+    A => sh(59),
+    B => sh(58),
+    O => s(69)
+  );
+
+  S59: adder port map(
+    A => sh(17),
+    B => sh(18),
+    O => s(59)
+  );
+
+  s(17 <= x(2)(30 downto 0) & "00";
+
+  s(18 <= x(2)(30 downto 0) & "00";
+
+  S58: adder port map(
+    A => sh(29),
+    B => sh(30),
+    O => s(58)
+  );
+
+  s(29 <= y(4)(25 downto 0) & "0000000";
+
+  s(30 <= y(4)(25 downto 0) & "0000000";
+
+  S68: adder port map(
+    A => sh(61),
+    B => sh(60),
+    O => s(68)
+  );
+
+  S61: adder port map(
+    A => sh(33),
+    B => sh(19),
+    O => s(61)
+  );
+
+  s(33 <= y(3)(26 downto 0) & "000000";
+
+  s(19 <= x(1)(31 downto 0) & "0";
+
+  S60: adder port map(
+    A => sh(31),
+    B => sh(32),
+    O => s(60)
+  );
+
+  s(31 <= y(3)(26 downto 0) & "000000";
+
+  s(32 <= y(3)(26 downto 0) & "000000";
+
+  S86: adder port map(
     A => sh(44),
-    B => sh(45),
-    O => sr(22)
-  );
-  
-  S23: adder port map(
-    A => s(0),
-    B => s(1),
-    O => sr(23)
+    B => sh(83),
+    O => s(86)
   );
 
-  S24: adder port map(
-    A => s(2),
-    B => s(3),
-    O => sr(24)
+  s(44 <= y(1)(30 downto 0) & "00";
+
+  S83: adder port map(
+    A => sh(76),
+    B => sh(75),
+    O => s(83)
   );
 
-  S25: adder port map(
-    A => s(4),
-    B => s(5),
-    O => sr(25)
+  S76: adder port map(
+    A => sh(47),
+    B => sh(74),
+    O => s(76)
   );
 
-  S26: adder port map(
-    A => s(6),
-    B => s(7),
-    O => sr(26)
+  S47: adder port map(
+    A => sh(0),
+    B => sh(1),
+    O => s(47)
   );
 
-  S27: adder port map(
-    A => s(8),
-    B => s(9),
-    O => sr(27)
+  s(0 <= x(9)(23 downto 0) & "000000000";
+
+  s(1 <= x(9)(23 downto 0) & "000000000";
+
+  S74: adder port map(
+    A => sh(49),
+    B => sh(48),
+    O => s(74)
   );
 
-  S28: adder port map(
-    A => s(10),
-    B => s(11),
-    O => sr(28)
+  S49: adder port map(
+    A => sh(4),
+    B => sh(5),
+    O => s(49)
   );
 
-  S29: adder port map(
-    A => s(12),
-    B => s(13),
-    O => sr(29)
+  s(4 <= x(8)(24 downto 0) & "00000000";
+
+  s(5 <= x(7)(25 downto 0) & "0000000";
+
+  S48: adder port map(
+    A => sh(2),
+    B => sh(3),
+    O => s(48)
   );
 
-  S30: adder port map(
-    A => s(14),
-    B => s(15),
-    O => sr(30)
+  s(2 <= x(8)(24 downto 0) & "00000000";
+
+  s(3 <= x(8)(24 downto 0) & "00000000";
+
+  S75: adder port map(
+    A => sh(38),
+    B => sh(39),
+    O => s(75)
   );
 
-  S31: adder port map(
-    A => s(16),
-    B => s(17),
-    O => sr(31)
+  s(38 <= y(2)(28 downto 0) & "0000";
+
+  s(39 <= y(2)(28 downto 0) & "0000";
+
+  S90: adder port map(
+    A => sh(45),
+    B => sh(46),
+    O => s(90)
   );
 
-  S32: adder port map(
-    A => s(18),
-    B => s(19),
-    O => sr(32)
-  );
+  s(45 <= y(1)(31 downto 0) & "0";
 
-  S33: adder port map(
-    A => s(20),
-    B => s(21),
-    O => sr(33)
-  );
-
-  S34: adder port map(
-    A => s(22),
-    B => y(1),
-    O => sr(34)
-  );
-
-  S35: adder port map(
-    A => s(23),
-    B => s(24),
-    O => sr(35)
-  );
-
-  S36: adder port map(
-    A => s(25),
-    B => s(26),
-    O => sr(36)
-  );
-
-  S37: adder port map(
-    A => s(27),
-    B => s(28),
-    O => sr(37)
-  );
-
-  S38: adder port map(
-    A => s(29),
-    B => s(30),
-    O => sr(38)
-  );
-
-  S39: adder port map(
-    A => s(31),
-    B => s(32),
-    O => sr(39)
-  );
-
-  S40: adder port map(
-    A => s(33),
-    B => s(34),
-    O => sr(40)
-  );
-
-  S41: adder port map(
-    A => s(35),
-    B => s(36),
-    O => sr(41)
-  );
-
-  S42: adder port map(
-    A => s(37),
-    B => s(38),
-    O => sr(42)
-  );
-
-  S43: adder port map(
-    A => s(39),
-    B => s(40),
-    O => sr(43)
-  );
-
-  S44: adder port map(
-    A => s(42),
-    B => s(43),
-    O => sr(44)
-  );
-
-  S45: adder port map(
-    A => s(41),
-    B => s(44),
-    O => y(0)
-  );
+  s(46 <= y(1)(31 downto 0) & "0";
 
 end Structural;

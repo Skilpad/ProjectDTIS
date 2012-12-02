@@ -12,7 +12,7 @@ END my_tb;
 ARCHITECTURE tb OF my_tb IS 
   
   constant period : time := 5 ns;
-  constant lat : integer := 6;
+  constant lat : integer := 4;
   
 	-- Component Declaration for the Unit Under Test (UUT)
 	component iir_sol_wrapper

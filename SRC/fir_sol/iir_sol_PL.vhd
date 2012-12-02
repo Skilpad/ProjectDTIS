@@ -33,8 +33,9 @@ architecture Structural of iir_sol is
            O : out  STD_LOGIC_VECTOR (31 downto 0));
   end component;                                    
 
-  signal y : array32_t (0 to 9);
-  signal s : array32_t (0 to 92);
+  signal y  : array32_t (0 to 9);
+  signal s  : array32_t (0 to 92);
+  signal sr : array32_t (0 to 14);
 
 begin
 
@@ -56,9 +57,25 @@ begin
     O => s(92)
   );
 
+  R0: reg port map (
+    Reset => Reset,
+    Clk => Clk,
+    Load => '1',
+    Din => s(89),
+    Dout => sr(0)
+  );
+
+  R1: reg port map (
+    Reset => Reset,
+    Clk => Clk,
+    Load => '1',
+    Din => s(88),
+    Dout => sr(1)
+  );
+
   S91: adder port map(
-    A => s(89),
-    B => s(88),
+    A => sr(0),
+    B => sr(1),
     O => s(91)
   );
 
@@ -94,9 +111,25 @@ begin
     O => s(88)
   );
 
+  R2: reg port map (
+    Reset => Reset,
+    Clk => Clk,
+    Load => '1',
+    Din => s(82),
+    Dout => sr(2)
+  );
+
+  R3: reg port map (
+    Reset => Reset,
+    Clk => Clk,
+    Load => '1',
+    Din => s(81),
+    Dout => sr(3)
+  );
+
   S87: adder port map(
-    A => s(82),
-    B => s(81),
+    A => sr(2),
+    B => sr(3),
     O => s(87)
   );
 
@@ -106,9 +139,25 @@ begin
     O => s(82)
   );
 
+  R4: reg port map (
+    Reset => Reset,
+    Clk => Clk,
+    Load => '1',
+    Din => s(71),
+    Dout => sr(4)
+  );
+
+  R5: reg port map (
+    Reset => Reset,
+    Clk => Clk,
+    Load => '1',
+    Din => s(70),
+    Dout => sr(5)
+  );
+
   S78: adder port map(
-    A => s(71),
-    B => s(70),
+    A => sr(4),
+    B => sr(5),
     O => s(78)
   );
 
@@ -164,9 +213,25 @@ begin
 
   s(15) <= Input(3)(24 downto 0) & "0000000";
 
+  R6: reg port map (
+    Reset => Reset,
+    Clk => Clk,
+    Load => '1',
+    Din => s(73),
+    Dout => sr(6)
+  );
+
+  R7: reg port map (
+    Reset => Reset,
+    Clk => Clk,
+    Load => '1',
+    Din => s(72),
+    Dout => sr(7)
+  );
+
   S77: adder port map(
-    A => s(73),
-    B => s(72),
+    A => sr(6),
+    B => sr(7),
     O => s(77)
   );
 
@@ -228,9 +293,25 @@ begin
     O => s(81)
   );
 
+  R8: reg port map (
+    Reset => Reset,
+    Clk => Clk,
+    Load => '1',
+    Din => s(67),
+    Dout => sr(8)
+  );
+
+  R9: reg port map (
+    Reset => Reset,
+    Clk => Clk,
+    Load => '1',
+    Din => s(66),
+    Dout => sr(9)
+  );
+
   S80: adder port map(
-    A => s(67),
-    B => s(66),
+    A => sr(8),
+    B => sr(9),
     O => s(80)
   );
 
@@ -286,9 +367,25 @@ begin
 
   s(22) <= Input(0)(31 downto 0);
 
+  R10: reg port map (
+    Reset => Reset,
+    Clk => Clk,
+    Load => '1',
+    Din => s(69),
+    Dout => sr(10)
+  );
+
+  R11: reg port map (
+    Reset => Reset,
+    Clk => Clk,
+    Load => '1',
+    Din => s(68),
+    Dout => sr(11)
+  );
+
   S79: adder port map(
-    A => s(69),
-    B => s(68),
+    A => sr(10),
+    B => sr(11),
     O => s(79)
   );
 
@@ -344,9 +441,17 @@ begin
 
   s(32) <= y(3)(25 downto 0) & "000000";
 
+  R12: reg port map (
+    Reset => Reset,
+    Clk => Clk,
+    Load => '1',
+    Din => s(83),
+    Dout => sr(12)
+  );
+
   S86: adder port map(
     A => s(44),
-    B => s(83),
+    B => sr(12),
     O => s(86)
   );
 
@@ -358,9 +463,25 @@ begin
     O => s(83)
   );
 
+  R13: reg port map (
+    Reset => Reset,
+    Clk => Clk,
+    Load => '1',
+    Din => s(47),
+    Dout => sr(13)
+  );
+
+  R14: reg port map (
+    Reset => Reset,
+    Clk => Clk,
+    Load => '1',
+    Din => s(74),
+    Dout => sr(14)
+  );
+
   S76: adder port map(
-    A => s(47),
-    B => s(74),
+    A => sr(13),
+    B => sr(14),
     O => s(76)
   );
 

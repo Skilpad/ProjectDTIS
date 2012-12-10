@@ -1,0 +1,28 @@
+ 
+****************************************
+Report : area
+Design : iir_sol_wrapper
+Version: F-2011.09-SP5
+Date   : Mon Dec  3 15:27:15 2012
+****************************************
+
+Library(s) Used:
+
+    c35_CORELIB (File: /dkits/ams/v3.70/synopsys/c35_3.3V/c35_CORELIB.db)
+
+Number of ports:                           66
+Number of nets:                           398
+Number of cells:                           23
+Number of combinational cells:             12
+Number of sequential cells:                 0
+Number of macros:                           0
+Number of buf/inv:                         11
+Number of references:                      17
+
+Combinational area:       1244042.805069
+Noncombinational area:    297024.000000
+Net Interconnect area:    346482.000000
+
+Total cell area:          1541066.805069
+Total area:               1887548.805069
+1

@@ -1,6 +1,6 @@
 #@ # 
 #@ # Running dc_shell Version F-2011.09-SP5 for linux -- Apr 20, 2012
-#@ # Date:   Mon Nov 26 22:21:25 2012
+#@ # Date:   Mon Dec  3 12:51:47 2012
 #@ # Run by: edatp54@ielsrv01.epfl.ch
 #@ 
 
@@ -4722,11 +4722,46 @@ source /softs/synopsys/syn/2011.09/admin/setup/.synopsys_dc.setup
 #@ 
 #@ # -- End source /softs/synopsys/syn/2011.09/admin/setup/.synopsys_dc.setup
 
-ls
-cd ..
-ls
-cd SRC/
-analyze -f vhdl components/adder.vhd
-elaborate adder
-compile
+source iir_sol.tcl
+#@ 
+#@ # A clean start is always good. 
+#@ # do not use -all, that one will delete all std cell libraries
+#@ remove_design -designs 
+#@ 
+#@ 
+#@ source cmd.tcl
+#@ set iir_name /home/edatp54/DTIS/ProjectDTIS/SCRIPTS/synth.sh
+#@ # -- End source cmd.tcl
+
+#@ 
+#@ # analyze the design
+#@ 
+#@ #*******************************************
+#@ #TODO: add extra source files here
+#@ 
+#@ analyze -f vhdl ./SRC/components/adder.vhd
+#@ #analyze -f vhdl ./SRC/components/mul.vhd
+#@ analyze -f vhdl ./SRC/components/reg.vhd
+#@ analyze -f vhdl ./SRC/components/array_t.vhd
+#@ 
+#@ #*******************************************
+#@ 
+#@ analyze -f vhdl ./SRC/iir_sol/${iir_name}.vhd
+#@ analyze -f vhdl ./SRC/iir_sol/iir_sol_wrapper.vhd
+#@ 
+#@ # elaborate the design 
+#@ elaborate iir_sol_wrapper
+#@ 
+#@ # set delay constraints
+#@ create_clock "Clk" -name "global_clk" -period 4.3
+#@ 
+#@ # now let's just compile and see what comes up 
+#@ compile
+#@ 
+#@ 
+#@ # get some useful report about area and timing   
+#@ report_timing  
+#@ report_area
+#@ # -- End source iir_sol.tcl
+
 exit

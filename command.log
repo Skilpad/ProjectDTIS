@@ -1,6 +1,6 @@
 #@ # 
 #@ # Running dc_shell Version F-2011.09-SP5 for linux -- Apr 20, 2012
-#@ # Date:   Fri Dec  7 15:38:55 2012
+#@ # Date:   Mon Dec 10 14:58:11 2012
 #@ # Run by: edatp54@ielsrv01.epfl.ch
 #@ 
 
@@ -4837,18 +4837,21 @@ source /home/edatp54/DTIS/ProjectDTIS/.synopsys_dc.setup
 analyze -f vhdl SRC/components/adder.vhd
 analyze -f vhdl SRC/components/reg.vhd
 analyze -f vhdl SRC/components/array_t.vhd
-analyze -f vhdl SRC/mes/reg_wrapper.vhd
-analyze -f vhdl SRC/mes/reg_wrapper.vhd
-analyze -f vhdl SRC/mes/reg_wrapper.vhd
-elaborate reg_wrapper
-create_clock "Clk" -name "global_clk" -period 0.3
-compile
-create_clock "Clk" -name "global_clk" -period 1
+analyze -f vhdl SRC/iir_sol/iir_sol_PL.vhd
+analyze -f vhdl SRC/iir_sol/iir_sol_wrapper.vhd
+elaborate iir_sol_wrapper
+create_clock "Clk" -name "global_clk" -period 5.4
 compile
 report_timing
 report_area
-analyze -f vhdl SRC/mes/reg_wrapper.vhd
-elaborate reg_wrapper
-create_clock "Clk" -name "global_clk" -period 1
+create_clock "Clk" -name "global_clk" -period 4.3
 compile
+report_timing
 report_area
+create_clock "Clk" -name "global_clk" -period 4.2
+create_clock "Clk" -name "global_clk" -period 4.1
+compile
+report_timing
+create_clock "Clk" -name "global_clk" -period 4.2
+compile
+report_timing
